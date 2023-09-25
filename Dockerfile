@@ -2,13 +2,8 @@
 FROM node:16-alpine
 
 # create work directory in app folder
+COPY . /app
 WORKDIR /app
-
-# install required packages for node image
-RUN apk --no-cache add openssh g++ make python3 git
-
-# copy over package.json files
-COPY package.json /app/
 
 # install all depencies
 RUN npm i

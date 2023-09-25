@@ -2,9 +2,18 @@ version: "3"
 
 services:
   nitt-mentoring:
-    container_name: nitt-mentoring
-    build:
-      context: .
-      dockerfile: DockerFile
+    container_name: mentoring-site
+    image: nitt/mentoring-site
+    restart: always
     ports:
       - "1920:1920"
+      - "3000:3000"
+      - "5555:5555"
+    command: sh -c "npm run prisma-generate && npm run db_push && node .output/server/index.mjs;"
+    depends_on:
+      - database
+
+
+volumes:
+  mentoring-site:
+    external: false
