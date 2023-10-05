@@ -3,11 +3,6 @@
         <InfoMentee v-if="mentee" :mentee="mentee" />
         <div class="flex flex-row items-center justify-start lg:justify-end w-full gap-4">
             <div class="flex flex-col items-end gap-4">
-                <a v-if="mentee" :href="`/dashboard/mentees/${mentee.register_number}/edit/special`"
-                    class="bg-nitMaroon-600 text-white rounded-md p-2">
-                    Add Special Info</a>
-            </div>
-            <div class="flex flex-col items-end gap-4">
                 <a v-if="mentee" :href="`/dashboard/mentees/${mentee.register_number}/meetings/new`"
                     class="bg-nitMaroon-600 text-white rounded-md p-2">
                     New Meeting</a>
@@ -30,15 +25,6 @@
                     </a>
                 </li>
             </ul>
-        </div>
-        <h1 class="text-2xl font-bold self-start mt-12">Special Info</h1>
-        <div class="gap-2 grid-cols-1 self-start mt-6">
-            <div v-for="field in specialFields" :key="field" class="grid grid-cols-1 lg:grid-cols-2 items-center gap-4">
-                <div class="text-lg font-bold">
-                    {{ field.split("_").map(x => x.slice(0, 1).toUpperCase() + x.slice(1)).join(" ") }}
-                </div>
-                <div>{{ mentee.achievements[field] || "None" }}</div>
-            </div>
         </div>
         <h1 class="text-2xl font-bold self-start mt-12">Meetings</h1>
         <table class="hidden lg:table table-auto border-collapse w-full mt-5">

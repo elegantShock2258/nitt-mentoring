@@ -30,7 +30,9 @@ export default defineEventHandler(async (e) => {
     });
     if (user) {
       const users = user.mentees;
-      return users.map((user) => client.manager.createPartialStudent(user));
+      return users.map((user) =>
+        client.manager.createStudent({ ...user, mentor: user })
+      );
     } else {
       throw createError({
         statusCode: 404,

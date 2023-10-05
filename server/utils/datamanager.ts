@@ -45,9 +45,10 @@ export const DataManager = {
       batch: data.batch,
       department: data.department,
       mentor: this.createPartialFaculty(data.mentor),
-      meetings: data.meetings.map((x: any) =>
+      meetings: data.meetings?.map((x: any) =>
         this.createPartialMeeting({ ...x })
-      ),
+      ) || [],
+      enable_edit_profile: data.enable_edit_profile,
       personal_info: {
         blood_group: data.blood_group,
         mobile_number: data.mobile_number,
@@ -102,7 +103,7 @@ export const DataManager = {
       reassessment_info: data.reassessment_info,
       placement_studies: data.placement_studies,
       student_comments: data.student_comments,
-      academics: data.academics.map((x: any) => ({
+      academics: data.academics?.map((x: any) => ({
         special: x.special,
         clubs: x.clubs,
         academic: x.academic,
@@ -139,7 +140,7 @@ export const DataManager = {
             { name: x.es_subject_9_name, grade: x.es_subject_9_grade },
           ],
         },
-      })),
+      })) || [],
     };
   },
   createPartialMeeting(

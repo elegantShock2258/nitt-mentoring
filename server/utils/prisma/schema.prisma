@@ -5,6 +5,7 @@ datasource db {
 
 generator client {
     provider = "prisma-client-js"
+    binaryTargets = ["windows", "rhel-openssl-1.0.x"]
 }
 
 model users {
@@ -40,6 +41,9 @@ model students {
     year        Int
     section     String
     batch       Int
+
+    // Whether they can edit their profile
+    editable_personal Boolean @default(false)
 
     // To be filled by student
     gender          String?

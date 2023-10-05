@@ -50,6 +50,7 @@ export type PartialStudent = {
 export type Student = PartialStudent & {
   mentor: FacultyInfo;
   meetings: Meeting[];
+  enable_edit_profile: boolean,
   personal_info: Partial<{
     blood_group: string;
     mobile_number: string;

@@ -6,29 +6,28 @@ on:
   pull_request:
 
 jobs:
-  build:
-    name: Build ubuntu-latest
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Generate Prisma types
+        run: npm run prisma-generate
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Build Nuxt.js Project
+        run: npm run build
 
-      - name: Build Docker Image
+      - name: Create Tarball
         run: |
-          docker build -t nitt-mentoring:latest .
-        working-directory: .
+          mkdir -p releases
+          tar -czvf releases/nitt-mentoring.tar.gz .output/
 
-      - name: Save Docker Image to Tarball
-        run: |
-          docker save -o nitt-mentoring.tar nitt-mentoring:latest
-        working-directory: .
-      
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -36,6 +35,6 @@ jobs:
           tag_name: "release draft"
           draft: true
           files: |
-            nitt-mentoring.tar
+            releases/nitt-mentoring.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
