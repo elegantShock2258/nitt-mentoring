@@ -13,16 +13,21 @@ export default defineNuxtConfig({
           name: "description",
           content: "NITT Mentoring Portal",
         },
+        {
+          hid: "site-name",
+          name: "og:site-name",
+          content: "NITT Mentoring"
+        },
         { name: "format-detection", content: "telephone=no" },
       ],
       link: [
         { rel: "shortcut icon", type: "image/x-icon", href: "/favicon.ico" },
       ],
     },
-    pageTransition: {
+/*    pageTransition: {
       name: "rotate",
       mode: "out-in",
-    },
+    },*/
     layoutTransition: { name: "layout", mode: "out-in" },
   },
   devtools: { enabled: true },
