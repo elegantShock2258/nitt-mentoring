@@ -12,7 +12,7 @@ const body = {
 }
 const encryptedPass = await hash(
   body.password,
-  Number(process.env.BCRYPT_SALT),
+  10,
 );
 const user = await client.users.create({
   data: { username: body.username, password: encryptedPass, level: body.level },

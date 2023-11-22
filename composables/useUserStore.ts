@@ -6,12 +6,12 @@ export const useUserStore = defineStore("userInfo", {
     return {
       username: "",
       loggedIn: false,
-      department: 0,
+      department: "NONE",
       id: 0,
       level: -1,
       faculty: false,
       student: false,
-    } as User & { loggedIn: boolean };
+    } as User & { loggedIn: boolean, department: string };
   },
   actions: {
     signOut() {

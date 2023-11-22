@@ -35,15 +35,19 @@ export default defineEventHandler(async (e) => {
       });
     }
     try {
+      const user = await client.prisma.faculty.findFirst({
+        where: {id: Number(jwtPayload.id)},
+      });
+      if(!user) throw "No user found."
       await client.prisma.meetings.create({
-        data: { date: new Date(body.date), discussion: body.discussion, mentor_id: Number(jwtPayload.id), mentee_id: body.mentee_id },
+        data: { date: new Date(body.date), discussion: body.discussion, mentor_id: user.id, mentee_id: body.mentee_id },
       });
       return { message: "Meeting recorded successfully!" };
     } catch (err) {
       console.log(err)
       throw createError({
-        statusCode: 400,
-        statusText: "Invalid Form Body",
+        statusCode: 404,
+        statusText: "No faculty found with your ID.",
       });
     }
   }

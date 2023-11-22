@@ -19,6 +19,8 @@ jobs:
 
       - name: Generate Prisma types
         run: npm run prisma-generate
+        env: 
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Build Nuxt.js Project
         run: npm run build

@@ -18,29 +18,32 @@ export default defineEventHandler(async (e) => {
         statusText: "Session expired. Please login again.",
       });
     }
+    const meetingId = getRouterParam(e, "meetingId");
+    const body = await readBody<
+      { date: Date; discussion: string; mentee_id: string }
+    >(e);
     if (
-      Number(jwtPayload.level) < 0
+      ["date", "discussion"].some((k) => !Object.hasOwn(body, k))
     ) {
       throw createError({
-        statusCode: 401,
-        statusText: "You do not have permission.",
+        statusCode: 400,
+        statusText: "Invalid Form Body",
       });
     }
-
-    const mentee = await client.prisma.students.findFirst({
-      where: { user_id: Number(jwtPayload.id) },
-      include: {
-        meetings: true,
-        mentor: true,
-        academics: true,
-        department: true,
-      },
-    });
-    if (mentee) {
-      return client.manager.createStudent(mentee);
-    } else {
+    try {
+      await client.prisma.meetings.update({
+        where: { id: Number(meetingId) },
+        data: {
+          date: new Date(body.date),
+          discussion: body.discussion,
+        },
+      });
+      return { message: "Meeting updated successfully!" };
+    } catch (err) {
+      console.log(err);
       throw createError({
-        statusCode: 404,
+        statusCode: 400,
+        statusText: "Invalid Form Body",
       });
     }
   }

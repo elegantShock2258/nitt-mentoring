@@ -30,7 +30,7 @@ export default defineEventHandler(async (e) => {
     if (mentee) {
       if (
         Number(jwtPayload.level) < 2 &&
-        mentee.mentor_id !== Number(jwtPayload.id)
+        mentee.mentor?.user_id !== Number(jwtPayload.id)
       ) {
         throw createError({
           statusCode: 401,

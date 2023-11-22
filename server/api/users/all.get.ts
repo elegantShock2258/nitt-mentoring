@@ -4,16 +4,11 @@ import { Client } from "../../utils/database.js";
 const client = new Client();
 
 type UserCreds = {
-  faculty_id: string;
   username: string;
   password: string;
-  level: number;
-  name: string;
-  department: string;
 };
 
 export default defineEventHandler(async (e) => {
-  const body = await readBody<UserCreds>(e);
   const auth = getHeader(e, "Authorization");
   if (!auth || !auth.startsWith("Bearer ")) {
     // Not a valid auth token
@@ -30,40 +25,26 @@ export default defineEventHandler(async (e) => {
         statusText: "Session expired. Please login again.",
       });
     }
-    if (Number(jwtPayload.level) < 3 && body.level && body.level != 1) {
-      body.level = 1
-    } else if (Number(jwtPayload.level) < 2) {
+    if (Number(jwtPayload.level) < 3) {
       throw createError({
         statusCode: 401,
         statusText: "You do not have permission.",
       });
     }
-
-    if (
-      !body.username || !body.password || !body.name || !body.department
-    ) {
-      throw createError({
-        statusCode: 400,
-        statusText: "Invalid Form Body",
-      });
-    }
-    const encryptedPass = await hash(
-      body.password,
-      10,
-    );
     try {
-      const user = await client.prisma.users.create({
-        data: { username: body.username, password: encryptedPass, level: body.level || 1 },
-      });
-      await client.prisma.faculty.create({
-        data: {
-          id: body.faculty_id,
-          user_id: user.id,
-          name: body.name,
-          department_id: body.department,
-        },
-      });
-      return { message: "Account created successfully!", id: user.id };
+      const users = await client.prisma.users.findMany();
+
+      return users.map((x) => ({
+        id: x.id,
+        level: x.level === 0
+          ? `Student`
+          : x.level === 1
+          ? `Faculty`
+          : x.level === 2
+          ? `HoD`
+          : `NA`,
+        username: x.username,
+      }));
     } catch (err) {
       if (err instanceof Error) {
         if (err.name === "PrismaClientKnownRequestError") {

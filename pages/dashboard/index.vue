@@ -15,6 +15,7 @@ const userStore = useUserStore()
 if(userStore.level === 3) {
     navigateTo("/admin")
 }
+
 definePageMeta({
     middleware: [
         "level1"

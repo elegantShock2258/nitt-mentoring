@@ -8,7 +8,7 @@
                     <div class="flex flex-row items-center gap-2">
                         <img src="/nitt_logo_min.webp" class="w-20 h-20" />
                         <h1 class="text-lg lg:text-2xl font-bold">National Institute of Technology Tiruchirappalli</h1>
-                    </div>
+                     </div>
                 </section>
                 <section class="flex-grow px-4">
                     <slot />

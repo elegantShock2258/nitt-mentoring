@@ -1,4 +1,4 @@
-import { Client } from "../../utils/database.js";
+import { Client } from "../../../utils/database.js";
 
 const client = new Client();
 export default defineEventHandler(async (e) => {
@@ -18,30 +18,20 @@ export default defineEventHandler(async (e) => {
         statusText: "Session expired. Please login again.",
       });
     }
-    if (
-      Number(jwtPayload.level) < 0
-    ) {
-      throw createError({
-        statusCode: 401,
-        statusText: "You do not have permission.",
-      });
-    }
 
-    const mentee = await client.prisma.students.findFirst({
+    const body = await readBody<
+      {
+        value: boolean;
+      }
+    >(e);
+    await client.prisma.students.update({
       where: { user_id: Number(jwtPayload.id) },
-      include: {
-        meetings: true,
-        mentor: true,
-        academics: true,
-        department: true,
+      data: {
+        editable_personal: body.value
       },
     });
-    if (mentee) {
-      return client.manager.createStudent(mentee);
-    } else {
-      throw createError({
-        statusCode: 404,
-      });
-    }
+    return {
+      message: "Successfully assigned mentor.",
+    };
   }
 });

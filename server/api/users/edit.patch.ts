@@ -42,7 +42,7 @@ export default defineEventHandler(async (e) => {
     }
     const encryptedPass = await hash(
       body.password,
-      Number(process.env.BCRYPT_SALT),
+      10,
     );
     try {
       const user = await client.prisma.users.update({

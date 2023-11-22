@@ -12,6 +12,13 @@
                         class="p-2 w-full lg:w-96 rounded-md shadow-md" />
                 </div>
                 <div class="flex flex-col items-center gap-2">
+                    <label htmlFor="id_field" class="w-full text-start">
+                        Username
+                    </label>
+                    <input name="faculty_id" id="id_field" type="number" placeholder="123"
+                        class="p-2 w-full lg:w-96 rounded-md shadow-md" />
+                </div>
+                <div class="flex flex-col items-center gap-2">
                     <label htmlFor="username_field" class="w-full text-start">
                         Username
                     </label>
@@ -31,15 +38,14 @@
                     </label>
                     <select name="department" id="dept_field" placeholder="Dept"
                         class="p-2 w-full lg:w-96 rounded-md shadow-md">
-                        <option v-for = "dep in dept" :key="dep.id" :value="dep.id">{{dep.name}}</option>
+                        <option v-for="dep in dept" :key="dep.id" :value="dep.id">{{ dep.name }}</option>
                     </select>
                 </div>
                 <div class="flex flex-col items-center gap-2">
                     <label htmlFor="type_field" class="w-full text-start">
                         Type
                     </label>
-                    <select name="level" id="type_field" placeholder="Type"
-                        class="p-2 w-full lg:w-96 rounded-md shadow-md">
+                    <select name="level" id="type_field" placeholder="Type" class="p-2 w-full lg:w-96 rounded-md shadow-md">
                         <option :value="1">Faculty</option>
                         <option :value="2">HOD</option>
                     </select>
@@ -78,6 +84,7 @@ const handleSubmit = async (e: Event) => {
         password: formData.get("password"),
         level: Math.min(Number(formData.get("level")), 2),
         department: formData.get("department"),
+        faculty_id: Number(formData.get("faculty_id"))
     };
     const auth = useCookie<string>("nitt_token");
     if (!auth.value) return false;

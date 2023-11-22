@@ -62,7 +62,7 @@
     </header>
 </template>
 <script setup lang="ts">
-const navState = ref(false)
+const navState = ref(true)
 const route = useRoute()
 const userStore = useUserStore()
 const auth = useCookie<string>("nitt_token")

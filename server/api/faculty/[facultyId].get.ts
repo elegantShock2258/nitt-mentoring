@@ -34,10 +34,12 @@ export default defineEventHandler(async (e) => {
     });
     if (user) {
       return {
+        name: user.name,
         id: user.user_id,
         username: user.user.username,
         level: user.user.level,
         mentees: user.mentees,
+        menteeCount: user.mentees.length
       };
     } else {
       throw createError({

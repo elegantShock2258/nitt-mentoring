@@ -24,7 +24,7 @@
                     {{ message.text }}</MiscMessage>
                 <button type="submit"
                     class="rounded-md transition duration-500 ease-in-out transform hover:-translate-y-1 bg-nitMaroon-600 text-white py-2 px-8">
-                    Create User
+                    Update Password
                 </button>
             </form>
             <hr class="border border-stone-400 w-full lg:w-96" />

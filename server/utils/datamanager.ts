@@ -48,7 +48,7 @@ export const DataManager = {
       meetings: data.meetings?.map((x: any) =>
         this.createPartialMeeting({ ...x })
       ) || [],
-      enable_edit_profile: data.enable_edit_profile,
+      enable_edit_profile: data.editable_personal,
       personal_info: {
         blood_group: data.blood_group,
         mobile_number: data.mobile_number,

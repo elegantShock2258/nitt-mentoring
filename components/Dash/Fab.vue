@@ -25,6 +25,7 @@
                                 <path class="transition-all duration-500 transform ease-in-out" stroke-linecap="round"
                                     stroke-linejoin="round" :d="`${navItem.routeIcon}`" />
                             </svg>
+                            
                         </div>
                         <div
                             class="absolute -left-28 mr-4 max-w-[70rem] transition-all overflow-hidden duration-500 ease-in-out text-right lg:max-w-0 lg:group-hover:max-w-[70rem]">

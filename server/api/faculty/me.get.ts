@@ -26,7 +26,7 @@ export default defineEventHandler(async (e) => {
     }
     const user = await client.prisma.faculty.findFirst({
       where: { user_id: Number(jwtPayload.id) },
-      include: { mentees: true },
+      include: { mentees: true, department: true },
     });
     if (user) {
       return client.manager.createFaculty(user);

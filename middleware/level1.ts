@@ -14,6 +14,7 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
       const faculty = await useFaculty();
       // @ts-ignore
       userStore.faculty = faculty;
+      userStore.department = faculty ? faculty.department.name : "NONE"
     }
   } catch (e) {
     return navigateTo(`/login?redirect=${to.fullPath}`);

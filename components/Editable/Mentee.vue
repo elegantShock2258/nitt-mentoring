@@ -3,9 +3,25 @@
         <div class="p-2 rounded-xl items-center flex justify-between bg-nitMaroon-100">
             <div class="flex items-center gap-8">
                 <div class="flex flex-col items-stretch gap-2" title="Allow Editing">
-                    <MiscSwitch :turned-on="mentee.enable_edit_profile" />
+                    <MiscSwitch :turned-on="mentee.enable_edit_profile ?? true" @update="toggleEditProfile" />
                 </div>
-                <div class="text-xl font-semibold">{{ mentee.name }} #{{ mentee.register_number }}</div>
+                <div class="flex flex-col items-start gap-2">
+
+                    <div class="text-base sm:text-xl lg:text-2xl font-semibold">{{ mentee.name }} #{{ mentee.register_number
+                    }}</div>
+                    <div class="py-2">
+                        <a :href="`/dashboard/mentees/${mentee.register_number}/meetings`"
+                            class="flex items-center gap-2 max-w-xs mx-auto bg-nitMaroon-700 rounded-md py-2 px-4">
+                            <span class="text-rose-200 text-xs sm:text-base">Check Meeting
+                                Details</span>
+                            <svg class="block w-5 h-5 stroke-2 stroke-rose-200 mx-auto" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                                <path class="transition-all duration-500 transform ease-in-out" stroke-linecap="round"
+                                    stroke-linejoin="round" :d="`${AllIcons.userplus}`" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
             <button @click="toggleDrop">
                 <svg class="h-8 w-8 stroke-nitMaroon-600 stroke-2" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -17,18 +33,7 @@
             </button>
         </div>
         <div
-            :class="`${editOpen ? `max-h-[999rem]` : `max-h-[0rem]`} overflow-y-hidden transition-all duration-500 ease-in-out bg-nitMaroon-100/50 flex flex-col space-y-4`">
-            <div class="p-2">
-                <a :href="`/dashboard/mentees/${mentee.register_number}`" class="flex items-center gap-2 max-w-xs mx-auto">
-                    <span class="text-rose-700">Check Meeting
-                        Details</span>
-                    <svg class="block w-5 h-5 stroke-2 stroke-rose-700 mx-auto" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                        <path class="transition-all duration-500 transform ease-in-out" stroke-linecap="round"
-                            stroke-linejoin="round" :d="`${AllIcons.userplus}`" />
-                    </svg>
-                </a>
-            </div>
+            :class="`${editOpen ? `max-h-[999rem]` : `max-h-[0rem]`} overflow-y-hidden transition-all duration-1000 ease-in-out bg-nitMaroon-100/50 flex flex-col space-y-4`">
             <div class="p-2">
                 <!-- BASIC STUDENT INFO -->
                 <h2 class="mt-4 text-2xl font-bold uppercase mx-auto text-center">Basic Info</h2>
@@ -66,12 +71,12 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full">
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_blood">Blood Group</label>
-                            <input type="number" name="student_blood" id="student_blood" class="font-semibold p-2 w-48"
+                            <input type="text" name="student_blood" id="student_blood" class="font-semibold p-2 w-48"
                                 :value="mentee.personal_info.blood_group" />
                         </div>
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_mobile">Mobile Number</label>
-                            <input type="number" name="student_mobile" id="student_mobile" class="font-semibold p-2 w-48"
+                            <input type="text" name="student_mobile" id="student_mobile" class="font-semibold p-2 w-48"
                                 :value="mentee.personal_info.mobile_number" />
                         </div>
                         <div class="grid grid-cols-2 items-center max-w-xs">
@@ -114,18 +119,18 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full">
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_f_name">Name</label>
-                            <input type="number" name="student_f_name" id="student_f_name" class="font-semibold p-2 w-48"
+                            <input type="text" name="student_f_name" id="student_f_name" class="font-semibold p-2 w-48"
                                 :value="mentee.personal_info.father?.name" />
                         </div>
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_f_occupation">Occupation</label>
-                            <input type="number" name="student_f_occupation" id="student_f_occupation"
+                            <input type="text" name="student_f_occupation" id="student_f_occupation"
                                 class="font-semibold p-2 w-48" :value="mentee.personal_info.father?.occupation" />
                         </div>
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_f_mobile">Mobile Number</label>
-                            <input type="number" name="student_f_mobile" id="student_f_mobile"
-                                class="font-semibold p-2 w-48" :value="mentee.personal_info.father?.mobile_number" />
+                            <input type="text" name="student_f_mobile" id="student_f_mobile" class="font-semibold p-2 w-48"
+                                :value="mentee.personal_info.father?.mobile_number" />
                         </div>
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_f_whatsapp">WhatsApp Number</label>
@@ -159,18 +164,18 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full">
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_m_name">Name</label>
-                            <input type="number" name="student_m_name" id="student_m_name" class="font-semibold p-2 w-48"
+                            <input type="text" name="student_m_name" id="student_m_name" class="font-semibold p-2 w-48"
                                 :value="mentee.personal_info.mother?.name" />
                         </div>
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_m_occupation">Occupation</label>
-                            <input type="number" name="student_m_occupation" id="student_m_occupation"
+                            <input type="text" name="student_m_occupation" id="student_m_occupation"
                                 class="font-semibold p-2 w-48" :value="mentee.personal_info.mother?.occupation" />
                         </div>
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_m_mobile">Mobile Number</label>
-                            <input type="number" name="student_m_mobile" id="student_m_mobile"
-                                class="font-semibold p-2 w-48" :value="mentee.personal_info.mother?.mobile_number" />
+                            <input type="text" name="student_m_mobile" id="student_m_mobile" class="font-semibold p-2 w-48"
+                                :value="mentee.personal_info.mother?.mobile_number" />
                         </div>
                         <div class="grid grid-cols-2 items-center max-w-xs">
                             <label for="student_m_whatsapp">WhatsApp Number</label>
@@ -265,6 +270,21 @@ const updateSpecial = async (e: Event) => {
                     specialMessage.value.text = "An unknown error occurred";
                     break;
             }
+        }
+    })
+};
+
+const toggleEditProfile = async (val: boolean) => {
+    const auth = useCookie<string>("nitt_token");
+    if (!auth.value) return false;
+    console.log(val)
+    await useFetch<{ token: string }>(`/api/mentees/update/${mentee.register_number}/editable`, {
+        method: "PATCH", body: JSON.stringify({ value: val }),
+        headers: { "Authorization": `Bearer ${auth.value}` },
+        onResponse({ request, response, options }) {
+        },
+        onResponseError({ request, response, options }) {
+            alert(`Unable to toggle editing. Error ${response.status} with ${response.statusText}`)
         }
     })
 };

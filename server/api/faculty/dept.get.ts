@@ -30,10 +30,13 @@ export default defineEventHandler(async (e) => {
     if (current) {
       const users = await client.prisma.faculty.findMany({
         where: { department_id: current.department_id },
-        include: { user: true },
+        include: { user: true, mentees: true },
       });
       if (users) {
-        return users.map((user) => client.manager.createPartialFaculty(user));
+        return users.map((user) => ({
+          ...client.manager.createPartialFaculty(user),
+          menteeCount: user.mentees.length,
+        }));
       } else {
         // This def won't happen
         throw createError({

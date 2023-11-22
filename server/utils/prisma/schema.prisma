@@ -5,7 +5,7 @@ datasource db {
 
 generator client {
     provider = "prisma-client-js"
-    binaryTargets = ["windows", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+    binaryTargets = ["native", "windows", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
 }
 
 model users {
@@ -22,7 +22,7 @@ model users {
 }
 
 model faculty {
-    id            Int         @id @default(autoincrement())
+    id            Int         @id
     name          String
     user          users       @relation(references: [id], fields: [user_id])
     user_id       Int         @unique

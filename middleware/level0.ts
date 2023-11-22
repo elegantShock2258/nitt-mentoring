@@ -13,6 +13,7 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
       const student = await useMe();
       // @ts-ignore
       userStore.student = student;
+      userStore.department = student ? student.department.name : "NONE"
     }
   } catch (e) {
     return navigateTo(`/login?redirect=${to.fullPath}`);
